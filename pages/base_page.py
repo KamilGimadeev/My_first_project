@@ -26,8 +26,13 @@ class BasePage():
 
     def go_to_login_page(self):
         #Go to login page
-        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
-        link.click()
+        try:
+            link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+            link.click()
+        except NoSuchElementException:
+            print ('No link to login page')
+            return False
+        return True    
 
     def should_be_login_link(self):
         #Existence login link
@@ -70,3 +75,7 @@ class BasePage():
     def basket_showed(self):
         bas = self.browser.find_element(*BasePageLocators.SHOW_BASKET)
         bas.click()
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                 " probably unauthorised user"
